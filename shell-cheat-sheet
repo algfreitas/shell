@@ -1,0 +1,887 @@
+SHELL
+Descrição: É o interpretador de comandos do Linux (Prompt de comandos).
+Apresentação: Exemplo: andre@nitro5:/$ - Usuário @ Nome da maquina: Diretório atual $ (Usuário) # (Root ou administrador).
+
+---
+
+Estrutura de arquivos - Linux (Debian):
+
+/       –     Diretório raiz.
+/bin    –     Diretório onde estão os arquivos  executáveis e comandos essenciais do sistema.
+/boot   –     Diretório onde estão os arquivos necessários para iniciar o sistema. Aqui é onde fica localizada a imagem do Kernel do Linux.
+/dev    –     Diretório onde estão os arquivos de dispositivos do sistema, como discos, cd-roms, terminais etc.
+/etc    –     Diretório onde estão localizados os arquivos de configuração do sistema.
+/home   –     Diretório que geralmente é usado  pelos usuários.
+/lib    –     Diretório onde estão localizadas as bibliotecas essenciais ao sistema, utilizadas pelos programas em /bin e módulos do Kernel.
+/mnt    –     Diretório geralmente é utilizado para pontos de montagem de dispositivos.
+/proc   –     Diretório que possui informações do Kernel e de processos.
+/opt    –     Diretório onde estão localizados os aplicativos instalados que não venham com o Linux.
+/root   –     Diretório do superusuários(root). Em algumas distribuições ele pode ou não estar presente.
+/sbin   –     Diretório onde estão os arquivos essenciais do sistema, como aplicativos, utilitários para administração do sistema. 
+/tmp    –     Diretório de arquivos temporários.
+/usr    –     Diretório de arquivos pertencentes aos usuários e a segunda maior hierarquia de diretórios no Linux.
+/var    –     Diretório onde são guardadas arquivos de logs etc.
+
+---
+
+Arquivos ocultos, possuem o seguinte formato: .diretório
+Arquivos de backup, possuem o seguinte formato: diretório~
+
+---
+
+Comandos básicos:
+
+1 - Comando pwd: Mostra diretório atual.
+
+---
+
+2 - Comando cd: Caminho separado por / - Navega entre os diretórios.
+
+Outras opções para o omendo cd:
+Comando cd ~ (til): Link para o doretório do usuário. 
+Comando cd - (ifen) : Navega do diretório atual para o anterior (Avançar / Voltar).
+Comando cd .. (ponto ponto): Navega para diretório acima.
+
+Comando cd com parametros: Exemplo:
+cd /home; ls -l
+
+---
+
+3 - Comando ls: - Lista arquivos e Subdiretórios.
+
+Repassar parametros para comandos: Comando -> Espaço -> (-) hífen -> Parametro
+
+Comando ls, com parametro -a -> ls -a - Lista aquivos ocultos.
+
+Outras opções para o comando: ls: 
+ls --help
+ls -l: Lista arquivos e dirtórios e retorna informações referentes à permissões, links, dono, grupo, tamanho e data/hora de alteração.
+ls -lt: Lista arquivos e dirtórios e retorna informações referentes à permissões, numero de arquivos, dono, grupo, tamanho, data/hora de alteração e origem de link simbolico.
+ls -R: Lista subdiretórios recursivamente.
+ls -1: Lista por linha
+ls -i: Lista arquivos retornando o inode (Numero unico (id) do arquivo do sistema de arquivos)
+
+---
+
+4 -permissões de arquivos e diretórios.
+
+ls -l: Listagem de diretório com informações sobre usuario, grupos e permissões.
+
+Retorno:
+
+Permissões    Links    Proprietário    Grupo   Tamanho   Data e Hora   Nome
+-rw-rw-r--    1        andre           andre   3531      set 30 10:57  shell-cheat-sheet 
+
+Compreendendo as permissões (-rw-rw-r--):
+
+4-1 - Perissões (Tipos de arquivos):
+
+d = Diretório.
+- = Arquivo comum de usuário.
+c = Arquivo de caractere.
+b = Arquivo de bloco.
+l = link
+
+4-2 - Permissões do arquivo por Proprietário, Grupo e Outros:
+
+Proprietário   Grupo  Outros (Não faz parte do grupo do proprietário)
+rw-            rw-    r--
+
+Propietário: Leitura, Escrita e sem execução.
+Grupo:       Leitura, Escrita e sem execução.
+Outros       Leitura, Sem escrita e sem execução.       
+
+4-3 - Permissões disponives (Ordem de niveis de permissão):
+r = Read (Leitura).
+w = Write (Escrita).
+x = Execution (Execução).
+- = Sem permissão
+
+---
+
+5 - Manipular permissões de acesso a arquivos e diretórios:
+
+Comando chmod:
+
+Sintaxe: 
+chmod [permissoes] [arquivo]
+
+Compreendendo o modo octal:
+bit recebe: 1 = Ligado.
+bit recebe: 0 = Desligado.
+
+Permissões: Ordem: r w x
+
+Somente leitura:
+     r--
+Bin: 100 = Dec: 4
+
+Somete escrita:
+     -w-
+Bin: 010 = Dec: 2
+
+Somente execução:
+     --x
+Bin: 001 = Dec: 1
+
+---
+
+r - Leitura  = 4
+w - Escrita  = 2
+x - Execução = 1
+
+Exemplo de aplicação no comando: chmod:
+
+Ordem de permissões segue padrão: Usuário, Grupo e Outros.
+
+ATRIBUIR ao USUÁRIO, leitura, escrita e execução: (r w x)
+rwx    r   w   x
+111 => 4 + 2 + 1 = 7 
+
+ATRIBUIR ao GRUPO, somente leitura e escrita, NEGAR execução: (r w -)
+rw-    r   w 
+110 => 4 + 2 = 6 
+
+NEGAR à OUTROS, leitura, escrita e execação: (- - -)
+---    r   w 
+000 => 0 + 0 = 0 
+
+Portanto:
+
+chmod 760 arquivo
+
+Outros exemplos:
+rw-r----- => rw- r-- --- => 6 4 0 => Proeprietário: leitura e escrita, Grupo: Leitura, Outros: Nenhuma premissão atribuida => chmod 640 arquivo
+
+Outras opções de uso:
+
+chmod 664 *.extensão - Altera todos os arquivos com a extensão .extensão no diretório.
+chmod 644 -R diretorio/ - Aplica as permissoes de forma recursiva (Diretórios e arquivo)
+
+---
+
+6 - Comando: chgrp - Manipulação de grupos para arquivos e diretórios:
+
+chgrp (Change group)
+
+Sintaxe:
+chgrp [novo_grupo] [arquivo]
+
+---
+
+7 - Comando: chown - Manipulação de proprietários de arquivos e diretórios:
+
+chown (Change owner)
+
+Sintaxe: 
+chown [novo_proprietário] [arquivo]
+
+---
+
+8 - Comando: touch - Criar arquivo vazio e alterar data e hora de criação:
+
+Sintaxe:
+touch [parametros] [arquivo]
+
+Opções de parametro:
+-a => Altera a hora de acesso.
+-m => Altera a hora de modificação.
+-t => Configura a data e hora do arquivo (YYMMDDhhmmss).
+
+Exemplo:
+Criação de arquivo assumindo data e hora corrente:
+touch arquivo
+Criação ou alteração de arquivo indicando data e hora:
+touch -m -t 202109301200 arquivo 
+
+---
+
+9 - Comando cut - Extrair e ou imprimir campos ou colunas por linha ou delimitados por outros caracteres:
+
+Sintaxe:
+cut [opções] [arquivo]
+
+Opções de parametro:
+-c    => Posição de caractere.
+-f[n] => campos
+-d[d] => Delimitador
+
+Exemplos: 
+cut -c1-5 arquivo                 => Imprime as colunas de 1 a 5 do arquivo.
+cut -c2,4 arquivo                 => Imprime as colunas 2 e 4 do arquivo.
+cut -d: -f3 arquivo               => Imprime a terceira coluna do arquivo delimitada pelo caractere ":"
+cut -d' ' -f1 arquivo             => Imprime a primeira coluna do arquivo delimitada pelo caractere "espaço" (Espaço aspas simples) 
+cut -d: -f3 arquivo > arquivo.txt => Imprime a terceira coluna do arquivo delimitada pelo caractere ":" e transfere o conteudo para arquivo.txt
+
+---
+
+10 - Comando head - Extrair e ou imprimir linhas ou bytes de um arquivo:
+
+Sintaxe:
+head [opções] [arquivo]
+
+Opções de parametro:
+-n  => linhas
+-c  => Bytes
+
+head arquivo       => Extrai as primeiras 10 linhas de um arquivo.
+head -n2 arquivo   => Extrai as primeiras 2 linhas de um arquivo.
+head -c100 arquivo => Extrai os primeiros 100 bytes de um arquivo.
+
+---
+
+11 - Concatenar comandos:
+
+é possivel utilizar varios comandos em uma unica linha, utilizando o caractere '|':
+
+Exemplo de utilização do comando: cut e head:
+
+Extrair do arquivo: /etc/group, a primeira coluna, delimitada por ':' das 5 primeiras linhas. 
+
+cut -d: -f1 /etc/group | head -n5
+
+---
+
+12 - Comando: sort - Organiza dados.
+
+Sintaxe: 
+sort [parametros] [arquivo]
+
+Opções de parametro:
+-f  => Ignora o caso.
+-n  => Numerico.
+-r  => Reverso.
+
+Exemplos:
+sort -f /etc/group
+sort -r /etc/group > arquivo.txt
+
+Extrair do arquivo group, grupos em ordem alfabetica e armazenar em arquivo:
+cut -d: -f1 /etc/group | sort > arquivo.txt
+
+---
+
+13 - Comando: cat - Criar, concatenar, exibir e direcionar conteudo de arquivos. 
+
+Sintaxe: 
+cat [parametros] [arquivo]
+
+Opções de parametro:
+-E  => Destacar Término de Linha.
+-n  => Exibir o Número da Linha com o Comando Cat
+-v  => Exibir Caracteres Não-imprimíveis.
+-T  => Para exibir tabulação.
+-s  => Suprimir Linhas Vazias.
+-b  => Numerar Linhas com Conteúdos (sobrescreve -n).
+
+Exemplos:
+
+cat -n arquivo.txt                            => Visualizar arquivo.
+cat > arquivo.txt                             => Criar arquivo texto.
+cat arquivo.txt | more                        => Rolagem pelo conteudo.
+cat *.txt                                     => Concatena varios arquivos txt para visualização.
+cat fonte.txt > destino.txt                   => Redirecionar Conteúdo.
+cat fonte.txt >> destino.txt                  => Adicionar conteudo.
+cat fonte1.txt fonte2.txt > destino.txt       => Concatenar Arquivos 
+
+Utilizando cat com um segundo comando:
+cat crt.crt | base64 >> certificado.yaml      => Gerar exportação de certificados | base 64.
+
+tac arquivo.txt                               => Inverter conteudo do arquivo.
+
+---
+
+14 - Comando tail - Visualizar ultimas linhas de um arquivo.
+
+Sintaxe:
+tail [parametro] [arquivo]
+
+Opções de paraetros:
+-n  => Exibe ultimas linhas de um arquivo.
+-f  => Exibe ultimas linhas de forma dinamica (geração).
+
+Exemplos:
+
+tail -n 5 arquivo.txt               => Mostra as ultimas 5 linhas do arquivo.
+tail -f /var/log/syslog             => Util para visualizar arquivos de log de forma dinamica. 
+
+---
+
+15 - Comando wc - Contagem de lnhas dentro de um arquivo.
+
+Sintaxe:
+wc [parametro] [arquivo]
+
+Opções de paraetros:
+-c  => Contagem de carateres.
+-l  => Contagem de linhas.
+-w  => Contagem de palavras.
+
+Exemplos:
+
+wc -c arquivo.txt                   => Retorna quantidade de caracteres no arquivo.
+wc -l /etc/group                    => Numero de linhas.
+
+---
+
+16 - Comando uniq - Imprime texto eliminando linhas duplicadas (Adjacentes).
+
+Sintaxe:
+uniq [parametro] [arquivo]
+
+Opções de paraetros:
+-d  => Processa linhas que se repetem.
+-u  => Processa linhas que nao se repetem.
+
+Exemplos:
+
+uniq arquivo.txt                   => Elimina linhas adjacentes repetidas.
+uniq -u /var/log/syslog            => Imprime linhas que não se repetem no arquivo.
+
+--- 
+
+17 - Comando cp - Executa cópias de arquivos e diretórios.
+
+Sintaxe:
+cp [parametro] [origem] [destino]
+
+Opções de paraetros:
+-i  => Solicita confirmação.
+-r  => Recursivo.
+-p  => Preserva todas as informações relacionadas aos arquivos.
+
+Exemplos:
+
+cp ~/origem/arquivo.txt destino/           => Efetua cópia do arquivo do diretório de origem para o diretório de destino.
+cp -r . ~/destino/                         => Efetua cópia de arquivos e subdiretorios da origem para o diretório de destino.
+
+cp -i /etc/group .                         => Efetua copia do arquivo /etc/group para o diretório atual.
+cp -i /etc/a* .                            => Efetua cópia de todos os arquivos iniciados com o caracter "a" 
+
+--- 
+
+18 - Comando rm - Executa exclusão de arquivos e diretórios.
+
+Sintaxe:
+rm [parametro] [arquivo ou diretório]
+
+Opções de parametros:
+-rf  => Exclusão de diretórios ocupados.
+
+Exemplos:
+
+rm ~/diretorio/arquivo.txt                  => Efetua excluão do arquivo no diretório.
+rm -rf ~/diretorio/                         => Efetua exclusão de diretorios e subdiretorios.
+
+---
+
+19 - Comando mv - Mover ou renomear arquivos e diretórios.
+
+Sintaxe:
+rm [parametro] [arquivo ou diretório]
+
+Opções de paraetros:
+-i  => Confirma operação.
+
+Exemplos:
+
+mv ~/origem/arquivo_1.txt /destino                  => Altera localização do arquivo.
+mv ~/origem/arquivo_1.txt /destino/arquivo_2.txt    => Altera localização do arquivo.
+
+---
+
+20 - Comando: mkdir - Criar diretórios.
+
+Sintaxe:
+mkdir [parametro] [diretorio]
+
+opções de parametros:
+-m [modo] => Define permissoes (octal).
+-p        => Cria subdiretórios recursivamente.
+
+Exemplos:
+
+mkdir -m 764 diretorio/                           => Cria diretório, atribuindo permissão 764.
+mkdir -p diretorio/subdir1/subdir2                => Cria diretório e subdiretorios de forma recursiva.
+mkdir diretorio_1 diretorio_2                     => Cria varios diretórios.
+mkdir "diretorio nome composto"                   => Cria diretório com nome composto. 
+
+---
+
+21 - rmdir - Exclusão de diretorios.
+
+Sintaxe:
+rmdir [diretorio]
+
+Exemplos:
+
+rmdir diretório/
+
+Para remover diretórios ocupados, utilizar rm -r
+
+rm -r diretorio/
+rm -rf diretorio/
+
+...
+
+22 - Monitoramento do sistema:
+
+22-1 - Comando top - Informações em tempo real do sistema.
+
+Sintaxe:
+top [parametros]
+
+Opções de parametro:
+-d  => Especifica atraso em segundos (Padrao: 5).
+-i  => Ignora processos ociosos.
+-n  => Exibe quantidade de iterações e finaliza.
+-b  => Executa em modo batch, util para enviar informaçõs para aplicações ou arquivos.
+-k  => Termina um processo (Solicita PID do processo).
+
+Exemplos:
+
+top -i             => Executa ignorando ociosos.
+top -n 5           => Executa 5 inerações (Atualizações) e finaliza.
+
+---
+
+22-2 - Comando: uptime - Informa tempo de uso do sistema, usuarios conectados e carga do sistema.
+
+Sintaxe:
+uptime
+
+---
+
+22-3 - Comando: vmstat - Retorna infor mações de recursos computacionais, memoria, paginação, atividade de I/O, traps e CPU.
+
+Sintaxe:
+vmstat [paramentros]
+
+Opções de parametros:
+-S M         => Altera a forma de apresentação de memoria para Mb.
+-a           => Retorna memoria ativa e inativa.
+-d           => Retorna estatisticas de disco.
+-p partiçao  => Retorna dado de I/O na partição indicada. 
+-s           => Imprime em linhas a informação de recursos.
+
+Exemplos:
+
+vmstat -S -s     => Retorna dados de memoria em Mb e em linhas.
+
+ ---
+
+22-4 - Comando free - Retorna informações de memoria livre e usada.
+
+Sintaxe:
+free [parametros]
+
+Opções de parametros:
+-b    => uso de memoria em bytes.
+-k    => Kb.
+-m    => Mb
+-t    => Exebição resumida de totais.
+-s n  => Intervalo de n segundos para atualização de dados.
+
+Exemplos:
+
+free -m -t
+
+---
+
+22 -5 - Comando iostat - Usos de CPU e entrada e saida de disco (sudo apt install sysstat).
+
+Sintaxe:
+iostat [parametros]
+
+Opções de parametros:
+-c    => Apenas uso de CPU
+-d    => Apenas uso de I/O
+
+Exemplos:
+
+iostat -c
+
+---
+
+22 - 6 - Comando: dstat - Retorna informações de uso do sistema (sudo apt install dstat).
+
+Sintaxe:
+dstat [parametros]
+
+Opções de parametros:
+-n       => Estatisticas de uso de rede.
+-m       => Memoria.
+-c       => CPU.
+-d       => Disco.
+-i       => Interrupções.
+--fs     => Sistema de arquivo.
+
+Exemplos:
+
+man dstat        => Manual para consulta de todas as opções de uso.
+
+dstat -c         => Retorna uso de CPU.
+dstat -d --fs    => REtorna dado de disco com informações do Fs.
+
+---
+
+23 - Pipes e redirecionamentos:
+
+23 - 1 Pipes "|" - Permite unir dois ou mais comandos.
+
+A operação resultante de dois o mais comandos, é denominada pipeline.
+
+Sintaxe:
+[comando 1] | [comando 2]
+
+Exemplos:
+
+ls -l /etc | less                              => Retorna na tela os arquivos contidos no diretório paginados. (Para finalizar o comando less, utilizar "q")
+
+ls -l /etc | sort -c | less                    => Retorna listagem de arquivos paginado e em ordem reversa.
+
+ls -l /etc | cut -d' ' -f16 | sort -r | less   => Retorna apenas a decima sexta coluna da listagem de arquivos, paginado e em ordem reversa.
+
+---
+
+23 - 2 - Redirecionamentos "< >" - Permite redirecionar a saída padrão.
+
+Sintaxe:
+[comando] ">" ">>" [arquivo]
+
+>  => Cria arquivos ou sobrescreve existente.
+>> => Adicionar conteudo ao arquivo existente.
+
+Exemplos:
+
+cat group | cut -d: -f1 | sort -r > group.tx     => Redirecona o resultado da operação no arquivo de origem no arquivo de destino.
+
+cat arquivo2 >> arquivo1                         => Adiciona ao arquivo 1, conteudo do arquivo2. 
+
+echo " conteúdo de texto " >> arquivo1           => Adciona valor ao arquivo já existente.
+
+---
+
+23 - 3 - Comando: tee - Permite enviar a aída de um comando e para a tela.
+
+Sintaxe:
+tee [parametros] [arquivo]
+
+Paramentros:
+-a  => anexa os arquivos.
+
+Exemplos:
+
+ls -l | tee arquivo.txt                           => Fornece saída na tela e salva arquivo.
+
+ls -l | tee arquivo.txt | less                    => Fornece saída na tela de forma paginada e salva em arquivo.
+
+ls -i | tee -a arquivo1.txt | less                => Fornece saída na tela de forma paginada e adiciona a saída ao arquivo existente.
+
+---
+
+24 - Gereniamento de usuários:
+
+Localização dos arquivos: /etc
+
+24 - 1 - /etc/passwd     => Listagem dos usuários do sistema.
+
+Formato:
+
+andre:x:1000:1000:andre:/home/andre:/bin/bash
+
+1 (andre)       - Usuario.
+2 (x)           - Indica uso de senhas (Contidas no arquivo shadow).
+3 (1000)        - ID do usuário.
+4 (1000)        - ID do grupo do suário.
+5 (andre)       - Informações sobre usuário (Nome completo, telefone, e-mail).
+6 (/home/andre) - Diretório do usuário.
+7 (/bin/bah)    - Shel padrão.
+
+--- 
+ 
+24 - 2 - /etc/group    => Define a quais grupos os usuários pertencem.
+
+Formato:
+vboxusers:x:134:andre
+
+1 (vboxusers)  - Nome do grupo.
+2 (x)          - Indica uso de senhas (Contidas no arquivo gshadow).
+3 (134)        - GID do grupo.
+4 (andre)      - Lista de membros (Separados por virgula).
+
+---
+
+24 - 3 - /etc/gshadow  => Define as senhas (criptografadas) dos grupos.
+
+Formato:
+sudo:*::andre
+
+1 (sudo)     - Nome do grupo.
+2 (*)        - Senha criptografada.
+3 ( )        - Administradores do grupo (Podem adicionar ou remover membros).
+4 (andre)    - Membros do grupo.
+
+Comando: Groups - Prmite descobrir quais grupos um usario participa.
+
+Exemplo: 
+Groups andre        => Retorno: andre : andre adm sudo lpadmin docker vboxusers
+
+Comando: id   - Permte verificar ids dos grupos do usuario.
+
+Parametro:
+-g  => Retorna ID do grupo do usuário.
+-G  => Retona ID dos grupos aos quais o usuário participa.
+
+Exemplo:
+
+id -g andre     => Retorna id do grupo do usuário.
+id -G andre     => Retorna ID dos grupos.
+
+---
+
+24 - 4 - /etc/shadow  => Senhas criptografadas e informaçẽos sobre usuário.
+
+Formato:
+syslog:*:18709:0:99999:7:::
+
+1 (syslog)   - Nome do usuário.
+2 (*)        - Indicador da situação do usuário (* = Usuário inativo).
+3 (18709)    - Notificação.
+4 (0)        - Minimo de dias para alteração da senha.
+5 (99999)    - Maximo de dias permitido sem alterar a senha.
+6 (7)        - Dias antes da expiração da senha.
+7 (99999)    - Numeo de dias para inativar a conta após a notificação de senha.
+8 (18689)    - Numeo de dias para expiração da senha
+9 ( )        - Reservado.
+
+---
+
+25 - Comando: useradd - Permite criar conta de usuários no sistema.
+
+Sintaxe:
+useradd [parametros] [usuario]
+
+Parametros:
+-c  =>  Define comentários sobre a conta (Nome completo, e-mail etc.)
+-d  =>  Define o diretório home do usuario.
+-m  =>  Cria e preenche o direorio Home.
+-s  =>  Shell padrao da conta.
+-e  =>  Data de expiração para usuarios.
+-u  =>  Define UID do usuario.
+
+Exemplos:
+useradd -m -c "temp" -s /bin/bash temp
+
+---
+
+26 - adduser - Script para o useradd:
+
+Sintaxe:
+adduser [usuario]
+
+---
+
+27 - Comando: passwd - Gerenciamento de senhas de usuarios.
+
+Sintaxe:
+passwd [parametros] usuario
+
+-l  => Trava a senha da conta (Bloqueio de usuário).
+-u  => Desbloqueio de usuarios
+-d  => Excluir senha do usuário.
+-e  => Força expiração de senha.
+
+Exemplo:
+
+sudo passwd temp           => Cria senha para o usuário temp (Criado pelo useradd).
+
+---
+
+28 - Comando: gpasswd - Administrar grupos.
+
+Sintaxe:
+gpasswd [paramentros] grupo
+
+Paramentros:
+-a  => permite adicionar usuario ao grupo.
+-d  => delete usuário de um determinado grupo.
+-A  => Torna usuário administrador do grupo.
+
+Exemplo:
+
+gpasswd grupo                        => Altera senha do grupo.
+sudo gpasswd -a andre vboxusers      => Adiciona usuario ao grupo.
+sudo gpasswd -d andre bluethoot      => Remove uuario do grupo.
+
+---
+
+29 - Comando: usermod - Alterar contas de usuários existentes.
+
+Sintaxe:
+usermod [] [usuario]
+
+Paramentros:
+-u  => Altera UID do usuario.
+-s  => Define novo shell para o usuário.
+-g  => Permite alterar o grupo primario para o usuário.
+-G  => Torna o usuário membro dos grupos especificados (Grupos separados por virgula).
+-c  => DEfine o valor do campo: comentarios.
+-l  => Define novo login para o usuário.
+
+Exemplos:
+
+sudo usermod -G cdrom,scanner, usuario   => Adiciona usuario a varios grupos.
+sudo usermod -l novo_login login         => Altera login de usuário.
+
+---
+
+30 - Comando: userdel - Exclir contas de usuários.
+
+Sintaxe:
+userdel [parametros] [usuarios]
+
+Parametros:
+-r  => Exclir usuário e diretório /home/usuário.
+
+Exemplo:
+
+sudo userdel -r temp
+
+---
+
+31 - Controle de processos.
+
+Sinais comuns.
+
+HUP => 1 - Desconectar.
+INT => 2 - Interromper (Equivalente ao ctrl - c).
+KILL => 9 - Terminar incondicionalmente.
+TERM => 15 - Terminar de forma elegante.
+CONT => 18 - Continuar processo
+TSTP => 20 - Parar / Pausar a execução de processos (Equivalente ao ctrl - z)
+
+31 - 1 - Comando: kill.
+
+Sintaxe:
+kill [parametro] PID
+
+Exemplos:
+
+kill -sinal PID          => Encerra o processo.
+kill -l numero_sinal     => Retorna o nome do sinal indicado.
+
+kill -15 2000            => Encerra de forma elegante o processo de PID: 2000.
+kill -SIGINT 2000        => Encerra de foam elegante o processo, utilizando o nome do sinal (prefixo SIG, seguido do nome INT).
+
+---
+
+31 - 2 - Comando killall - Termina processos associados a prpgramas referenciados por nomes.
+
+Sintaxe:
+killall [parametro] [nome_programa]
+
+Parametros:
+-i  => Modo interativo.
+
+Exemplos:
+
+killall -i gedit         => Finaliza processo solicitando confirmação do usuario.
+
+---
+
+32 - Comando: ps - Verificar processos.
+
+Sintax:
+ps [parametro]
+
+parametros:
+-l        => Mostra processos abertos pelo terminal.
+-aux      => Mostra processos em geral.
+
+Exemplos:
+
+ps -aux
+
+---
+
+33 - Comando dmesg - Permite visualizar mensagens do display message - mensagens de processos do kernel Linux.
+
+Sintaxe:
+dmesg
+
+Exemplos:
+
+dmesg > log_kernel.txt    => Direciona a saída do comando para um arquivo .txt.
+
+---
+
+34 - Comando grep - Filtragem de Strings.
+
+Sintaxe:
+grep [parametros] [string] [arquivo]
+
+Parametros:
+-c  => Exibe contagem de linhas encontradas.
+-i  => Ignora o caso.
+-n  => Enumera as linhas.
+-v  => Exibe as linhas que não correspondentes.
+-r  => Recursivo (Arquivos em um diretório).
+-E  => Interpreta como uma expressão regular estendida.
+
+Exemplos: dmesg | grep -n -i "usb" > resultado.txt    => Filta na saida dmesg linhas com a palavra usb, ignorando caso.
+
+---
+
+35 - Localizar arquivos.
+
+35 -1 - Comando: locate - Localiza arquivos em disco (apt install locate).
+
+Para utilizar o comando locate, se faz necessario antes, executar o comando updatedb para atualizar a base de dados de busca.
+
+Sintaxe:
+ updatedb
+
+ locate [nome do arquivo]
+
+ Exemplos:
+
+ locate gedit
+
+ ---
+
+ 35 -2 - Comando whereis - LOcalização de arquivos.
+
+ Sintaxe:
+ whereis [parametro] [consulta]
+
+ Parametros:
+ -b  => Somente arquivos binarios.
+ -m  => Somente paginas de manual.
+ -s  => Arquivos de código fonte.
+
+ Exemplos:
+
+ whereis -b gedit
+
+ ---
+
+
+
+
+
+
+
+
+Instalação ubuntu-make:
+
+
+Como instalar o suporte a pacotes Snap no Linux:
+sudo apt install snapd
+
+Instalar Ubuntu-maker:
+sudo snap install ubuntu-make --classic
+
+Exemplo: Instalação ambiente: GO:
+sudo umake go go-lang
+
