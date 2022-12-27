@@ -865,23 +865,3 @@ Sintaxe:
  whereis -b gedit
 
  ---
-
-
-
-
-
-
-
-
-Instalação ubuntu-make:
-
-
-Como instalar o suporte a pacotes Snap no Linux:
-sudo apt install snapd
-
-Instalar Ubuntu-maker:
-sudo snap install ubuntu-make --classic
-
-Exemplo: Instalação ambiente: GO:
-sudo umake go go-lang
-
